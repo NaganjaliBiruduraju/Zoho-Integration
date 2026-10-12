@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoho People | Project P&L Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">Z</div>
+        <div>
+          <h2>Project P&L</h2>
+          <p>Financial Portal</p>
+        </div>
+      </div>
+
+      <p class="nav-heading">WORKSPACE</p>
+      <nav class="navigation">
+        <a href="#overview" class="nav-link active">Overview</a>
+        <a href="#projects" class="nav-link">Projects (P1–P4)</a>
+        <a href="#resources" class="nav-link">Resources</a>
+        <a href="#hours" class="nav-link">Hours & Time Logs</a>
+        <a href="#financials" class="nav-link">Financials</a>
+        <a href="#reports" class="nav-link">Reports</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        Mock data environment
+      </div>
+    </aside>
+
+    <!-- Main dashboard -->
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">WORKSPACE / FINANCE</p>
+          <h1>Project Profit & Loss</h1>
+          <p class="subtitle">
+            Monitor project budgets, resource costs, revenue and profitability.
+          </p>
+        </div>
+        <div id="connection-status" class="environment-tag">
+  Checking Zoho connection...
+</div>
+      </header>
+
+      <!-- Overview -->
+      <section id="overview" class="dashboard-section">
+        <div class="section-heading">
+          <div>
+            <h2>Financial Overview</h2>
+            <p>Summary across all projects</p>
+          </div>
+          <button id="refresh-btn" class="primary-button" type="button">
+            Refresh Data
+          </button>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card">
+            <p>Total Budget</p>
+            <h3 id="total-budget">Loading...</h3>
+            <span>Combined project budgets</span>
+          </article>
+
+          <article class="summary-card">
+            <p>Total Revenue</p>
+            <h3 id="total-revenue">Loading...</h3>
+            <span>Revenue across projects</span>
+          </article>
+
+          <article class="summary-card">
+            <p>Total Cost</p>
+            <h3 id="total-cost">Loading...</h3>
+            <span>Resources and other costs</span>
+          </article>
+
+          <article class="summary-card">
+            <p>Total Profit</p>
+            <h3 id="total-profit">Loading...</h3>
+            <span id="overall-margin">Profit margin: —</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- Charts -->
+      <section class="dashboard-section chart-grid">
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>Revenue vs Cost</h2>
+            <p>Financial comparison by project</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="financial-chart"></canvas>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>Project Profitability</h2>
+            <p>Profit by project</p>
+          </div>
+          <div class="chart-container">
+            <canvas id="profit-chart"></canvas>
+          </div>
+        </article>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="dashboard-section panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Project Financials</h2>
+            <p>Budget, revenue, cost and profitability by project</p>
+          </div>
+          <span id="project-count" class="count-badge">0 projects</span>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Client</th>
+                <th>Budget</th>
+                <th>Revenue</th>
+                <th>Total Cost</th>
+                <th>Profit</th>
+                <th>Margin</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="projects-table-body">
+              <tr>
+                <td colspan="8">Loading project data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section id="resources" class="dashboard-section panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Resources</h2>
+            <p>Employee roles and annual compensation in sample data</p>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee ID</th>
+                <th>Employee</th>
+                <th>Role</th>
+                <th>Annual CTC</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="employees-table-body">
+              <tr><td colspan="5">Loading employee data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Time logs -->
+      <section id="hours" class="dashboard-section panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Hours & Time Logs</h2>
+            <p>Sample employee time entries and approval status</p>
+          </div>
+          <select id="time-status-filter" aria-label="Filter time logs by status">
+            <option value="">All statuses</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+            <option value="Draft">Draft</option>
+          </select>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Employee ID</th>
+                <th>Project</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Hours</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="time-logs-table-body">
+              <tr><td colspan="7">Loading time logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Financial notes -->
+      <section id="financials" class="dashboard-section panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Financial Calculation Rules</h2>
+            <p>Current prototype assumptions</p>
+          </div>
+        </div>
+        <ul class="rules-list">
+          <li><strong>Total cost</strong> = Resource cost + Other costs</li>
+          <li><strong>Profit</strong> = Revenue − Total cost</li>
+          <li><strong>Profit margin</strong> = (Profit ÷ Revenue) × 100</li>
+          <li>All financial figures currently use fictional sample data in INR.</li>
+        </ul>
+      </section>
+
+      <!-- Reports -->
+      <section id="reports" class="dashboard-section panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Reports</h2>
+            <p>Export the currently displayed project financials</p>
+          </div>
+          <button id="export-btn" class="secondary-button" type="button">
+            Export Projects CSV
+          </button>
+        </div>
+        <p class="report-note">
+          Reports use mock data until the Zoho People integration is configured.
+        </p>
+      </section>
+
+      <footer class="page-footer">
+        Zoho People P&L Portal · Development Prototype · Fictional data
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
