@@ -36,14 +36,6 @@ async function getZohoData(endpoint) {
   return result;
 }
 
-function formatINR(value) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0
-  }).format(Number(value) || 0);
-}
-
 function showConnectionStatus(message) {
   const status = document.getElementById("connection-status");
 
@@ -53,12 +45,6 @@ function showConnectionStatus(message) {
 }
 
 function showEmptyStates(message) {
-  document.getElementById("total-budget").textContent = "—";
-  document.getElementById("total-revenue").textContent = "—";
-  document.getElementById("total-cost").textContent = "—";
-  document.getElementById("total-profit").textContent = "—";
-  document.getElementById("overall-margin").textContent = message;
-
   document.getElementById("projects-table-body").innerHTML =
     `<tr><td colspan="8">${message}</td></tr>`;
 
@@ -74,16 +60,14 @@ async function loadDashboard() {
 
   try {
     // These endpoints will connect to Zoho through our backend.
-    const [summary, projects, employees, timeLogs] =
+    const [projects, employees, timeLogs] =
       await Promise.all([
-        getZohoData("/summary"),
         getZohoData("/projects"),
         getZohoData("/employees"),
         getZohoData("/time-logs")
       ]);
 
     // Render real API responses after the integration is configured.
-    renderSummary(summary);
     renderProjects(projects);
     renderEmployees(employees);
     renderTimeLogs(timeLogs);
@@ -99,30 +83,12 @@ async function loadDashboard() {
   }
 }
 
-// Display the summary returned by the backend.
-function renderSummary(summary) {
-  document.getElementById("total-budget").textContent =
-    formatINR(summary.totalBudget);
-
-  document.getElementById("total-revenue").textContent =
-    formatINR(summary.totalRevenue);
-
-  document.getElementById("total-cost").textContent =
-    formatINR(summary.totalCost);
-
-  document.getElementById("total-profit").textContent =
-    formatINR(summary.totalProfit);
-
-  document.getElementById("overall-margin").textContent =
-    `Profit margin: ${Number(summary.profitMargin || 0).toFixed(2)}%`;
-
-  document.getElementById("project-count").textContent =
-    `${summary.projectCount || 0} projects`;
-}
-
 // These rendering functions will be completed against the
 // actual Zoho response fields once the required API access is known.
 function renderProjects(data) {
+  document.getElementById("project-count").textContent =
+    `${data.length} ${data.length === 1 ? "project" : "projects"}`;
+
   document.getElementById("projects-table-body").innerHTML =
     data.length
       ? `<tr><td colspan="8">Project data received. Field mapping is pending.</td></tr>`
@@ -147,6 +113,35 @@ document.getElementById("refresh-btn").addEventListener(
   "click",
   loadDashboard
 );
+
+const navigationLinks = document.querySelectorAll(".nav-link");
+const dashboardSections = document.querySelectorAll(".dashboard-section[id]");
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    const visibleSection = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+
+    if (!visibleSection) {
+      return;
+    }
+
+    navigationLinks.forEach((link) => {
+      const isCurrent = link.hash === `#${visibleSection.target.id}`;
+      link.classList.toggle("active", isCurrent);
+
+      if (isCurrent) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  },
+  { rootMargin: "-15% 0px -65% 0px", threshold: [0, 0.25, 0.5] }
+);
+
+dashboardSections.forEach((section) => sectionObserver.observe(section));
 
 checkZohoConnection();
 loadDashboard();

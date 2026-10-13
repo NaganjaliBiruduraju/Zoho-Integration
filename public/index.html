@@ -22,14 +22,36 @@
         </div>
       </div>
 
-      <p class="nav-heading">WORKSPACE</p>
       <nav class="navigation">
-        <a href="#overview" class="nav-link active">Overview</a>
-        <a href="#projects" class="nav-link">Projects (P1–P4)</a>
-        <a href="#resources" class="nav-link">Resources</a>
-        <a href="#hours" class="nav-link">Hours & Time Logs</a>
-        <a href="#financials" class="nav-link">Financials</a>
-        <a href="#reports" class="nav-link">Reports</a>
+        <p class="nav-heading">ANALYZE</p>
+        <a href="#performance" class="nav-link active" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">◷</span>
+          Performance
+        </a>
+        <a href="#projects" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">▦</span>
+          Projects
+        </a>
+
+        <p class="nav-heading">TEAM</p>
+        <a href="#resources" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">♙</span>
+          Resources
+        </a>
+        <a href="#hours" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">◷</span>
+          Hours &amp; Time Logs
+        </a>
+
+        <p class="nav-heading">FINANCE</p>
+        <a href="#financials" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">₹</span>
+          Calculation Rules
+        </a>
+        <a href="#reports" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">↗</span>
+          Reports
+        </a>
       </nav>
 
       <div class="sidebar-footer">
@@ -38,84 +60,65 @@
       </div>
     </aside>
 
-    <!-- Main dashboard -->
     <main class="main-content">
       <header class="topbar">
         <div>
-          <p class="eyebrow">WORKSPACE / FINANCE</p>
+          <p class="eyebrow">PROJECT FINANCE</p>
           <h1>Project Profit & Loss</h1>
           <p class="subtitle">
-            Monitor project budgets, resource costs, revenue and profitability.
+            Track project performance, team hours, costs and profitability.
           </p>
         </div>
-        <div id="connection-status" class="environment-tag">
-  Checking Zoho connection...
-</div>
-      </header>
-
-      <!-- Overview -->
-      <section id="overview" class="dashboard-section">
-        <div class="section-heading">
-          <div>
-            <h2>Financial Overview</h2>
-            <p>Summary across all projects</p>
+        <div class="topbar-actions">
+          <div id="connection-status" class="environment-tag" role="status">
+            Checking Zoho connection...
           </div>
           <button id="refresh-btn" class="primary-button" type="button">
-            Refresh Data
+            Refresh data
           </button>
         </div>
+      </header>
 
-        <div class="summary-grid">
-          <article class="summary-card">
-            <p>Total Budget</p>
-            <h3 id="total-budget">Loading...</h3>
-            <span>Combined project budgets</span>
+      <section id="performance" class="dashboard-section">
+        <div class="section-heading">
+          <div>
+            <h2>Performance</h2>
+            <p>Compare project revenue, cost and profit.</p>
+          </div>
+        </div>
+        <div class="chart-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Revenue vs Cost</h2>
+                <p>Financial comparison by project</p>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="financial-chart"></canvas>
+              <p class="chart-empty-state">
+                Chart data will appear when financial field mapping is configured.
+              </p>
+            </div>
           </article>
 
-          <article class="summary-card">
-            <p>Total Revenue</p>
-            <h3 id="total-revenue">Loading...</h3>
-            <span>Revenue across projects</span>
-          </article>
-
-          <article class="summary-card">
-            <p>Total Cost</p>
-            <h3 id="total-cost">Loading...</h3>
-            <span>Resources and other costs</span>
-          </article>
-
-          <article class="summary-card">
-            <p>Total Profit</p>
-            <h3 id="total-profit">Loading...</h3>
-            <span id="overall-margin">Profit margin: —</span>
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Project Profitability</h2>
+                <p>Profit by project</p>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="profit-chart"></canvas>
+              <p class="chart-empty-state">
+                Chart data will appear when financial field mapping is configured.
+              </p>
+            </div>
           </article>
         </div>
       </section>
 
-      <!-- Charts -->
-      <section class="dashboard-section chart-grid">
-        <article class="panel">
-          <div class="panel-heading">
-            <h2>Revenue vs Cost</h2>
-            <p>Financial comparison by project</p>
-          </div>
-          <div class="chart-container">
-            <canvas id="financial-chart"></canvas>
-          </div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-heading">
-            <h2>Project Profitability</h2>
-            <p>Profit by project</p>
-          </div>
-          <div class="chart-container">
-            <canvas id="profit-chart"></canvas>
-          </div>
-        </article>
-      </section>
-
-      <!-- Projects -->
       <section id="projects" class="dashboard-section panel">
         <div class="panel-heading">
           <div>
@@ -148,7 +151,6 @@
         </div>
       </section>
 
-      <!-- Resources -->
       <section id="resources" class="dashboard-section panel">
         <div class="panel-heading">
           <div>
@@ -174,7 +176,6 @@
         </div>
       </section>
 
-      <!-- Time logs -->
       <section id="hours" class="dashboard-section panel">
         <div class="panel-heading">
           <div>
@@ -208,7 +209,6 @@
         </div>
       </section>
 
-      <!-- Financial notes -->
       <section id="financials" class="dashboard-section panel">
         <div class="panel-heading">
           <div>
@@ -224,7 +224,6 @@
         </ul>
       </section>
 
-      <!-- Reports -->
       <section id="reports" class="dashboard-section panel">
         <div class="panel-heading">
           <div>
